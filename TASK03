@@ -1,0 +1,42 @@
+import re
+
+def check_password_strength(password):
+    length_criteria = len(password) >= 8
+    uppercase_criteria = any(char.isupper() for char in password)
+    lowercase_criteria = any(char.islower() for char in password)
+    digit_criteria = any(char.isdigit() for char in password)
+    special_char_criteria = any(char in "!@#$%^&*()-_=+[{]}|;:'\",<.>/?`~" for char in password)
+
+    strength = sum([length_criteria, uppercase_criteria, lowercase_criteria, digit_criteria, special_char_criteria])
+    
+    if strength == 5:
+        feedback = "Very Strong"
+    elif strength == 4:
+        feedback = "Strong"
+    elif strength == 3:
+        feedback = "Medium"
+    elif strength == 2:
+        feedback = "Weak"
+    else:
+        feedback = "Very Weak"
+    
+    return feedback, {
+        'Length': length_criteria,
+        'Uppercase': uppercase_criteria,
+        'Lowercase': lowercase_criteria,
+        'Digit': digit_criteria,
+        'Special Character': special_char_criteria
+    }
+
+def main():
+    print("Password Strength Checker")
+    password = input("Enter a password to check its strength: ")
+    feedback, criteria = check_password_strength(password)
+    
+    print(f"Password Strength: {feedback}")
+    print("Criteria met:")
+    for criterion, met in criteria.items():
+        print(f"{criterion}: {'Yes' if met else 'No'}")
+
+if __name__ == "__main__":
+    main()
